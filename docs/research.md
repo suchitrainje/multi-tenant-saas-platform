@@ -31,11 +31,12 @@ The major advantage of this model is maximum security and isolation. Database-le
 
 However, this approach is expensive and operationally heavy. Managing hundreds of databases increases infrastructure cost, monitoring complexity, and deployment time. Database migrations and updates become significantly harder to coordinate. This model is generally unsuitable for early-stage or rapidly scaling SaaS platforms.
 
-Comparison Table
-Approach	Pros	Cons
-Shared DB + Shared Schema	Low cost, easy scaling, simple migrations	Requires strict tenant filtering
-Shared DB + Separate Schema	Better isolation than shared schema	Complex migrations, harder scaling
-Separate Database	Maximum isolation and security	High cost, complex operations
+| Approach                          | Pros                                      | Cons                                 |
+|-----------------------------------|-------------------------------------------|--------------------------------------|
+| Shared Database + Shared Schema   | Low cost, easy scaling, simple migrations | Requires strict tenant filtering     |
+| Shared Database + Separate Schema | Better isolation than shared schema       | Complex migrations, harder scaling   |
+| Separate Database per Tenant      | Maximum isolation and security            | High cost, complex operations        |
+
 Chosen Approach & Justification
 
 For this project, the Shared Database + Shared Schema with tenant_id approach is selected. This model strikes the best balance between scalability, simplicity, and cost-effectiveness, making it the industry standard for most SaaS platforms.
@@ -44,7 +45,7 @@ This approach integrates naturally with role-based access control and middleware
 
 From a DevOps and Docker perspective, this approach simplifies container orchestration. Only one database service is required, which aligns well with docker-compose based deployments. Schema migrations are easier to manage, and onboarding new tenants is fast and automated. Given the project requirements and evaluation constraints, this approach is the most practical and production-ready choice.
 
-2. Technology Stack Justification
+1. Technology Stack Justification
 Backend Framework
 
 Node.js with Express is chosen as the backend framework due to its non-blocking I/O model and strong ecosystem for building RESTful APIs. Express provides flexibility, middleware support, and simplicity, making it ideal for implementing authentication, authorization, and multi-tenant request handling.
