@@ -10,3 +10,15 @@ const router = express.Router();
 router.post('/', auth, tenant, role(['tenant_admin', 'user']), createTask);
 
 module.exports = router;
+const validate = require('../middleware/validate.middleware');
+const { createTaskValidator } = require('../validators/task.validator');
+
+router.post(
+  '/',
+  auth,
+  tenant,
+  role(['tenant_admin', 'user']),
+  createTaskValidator,
+  validate,
+  createTask
+);
