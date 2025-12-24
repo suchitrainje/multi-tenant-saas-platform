@@ -6,8 +6,7 @@ module.exports = (req, res, next) => {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({
       success: false,
-      message: 'Authorization token missing',
-      data: null
+      message: 'Authentication token missing'
     });
   }
 
@@ -15,19 +14,12 @@ module.exports = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    req.user = {
-      id: decoded.id,
-      role: decoded.role,
-      tenant_id: decoded.tenant_id || null
-    };
-
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: 'Invalid or expired token',
-      data: null
+      message: 'Invalid or expired token'
     });
   }
 };
